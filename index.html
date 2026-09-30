@@ -190,7 +190,7 @@ function characterGallery(){return '<div class="charGrid">'+
 [['Arkan Veyron','assets/art/characters/arkan.jpg','Zero Echo · Protagonis'],['Lyra Windheart','assets/art/characters/lyra.jpg','Flame · Penyihir Arcadia'],['Kael Draken','assets/art/characters/kael.jpg','Blaze · Keturunan Naga'],['Mira','assets/art/characters/mira.jpg','Unknown · Gadis dari 500 tahun lalu']].map(x=>'<div class="charCard"><img src="'+x[1]+'" onerror="this.onerror=null;this.src=\''+x[1].replace('assets/art/characters/','assets/characters/').replace('.jpg','.svg')+'\'"><b>'+x[0]+'</b><small>'+x[2]+'</small></div>').join('')+'</div>'+
 '<p class="secret">Setiap karakter akan berkembang seiring perjalanan. Detail Echo, senjata, hubungan, dan rahasia akan terbuka melalui cerita.</p>'}
 
-function openLore(tab='world'){lore.classList.remove('hidden');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));loreContent.innerHTML='<h3>'+codex[tab].title+'</h3>'+codex[tab].html}
+function openLore(tab='world'){lore.classList.remove('hidden');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));loreContent.innerHTML=tab==='chars'?'<h3>Tokoh Utama</h3>'+characterGallery():'<h3>'+codex[tab].title+'</h3>'+codex[tab].html}
 document.getElementById('loreBtn').onclick=()=>openLore();
 document.getElementById('closeLore').onclick=()=>lore.classList.add('hidden');
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>openLore(b.dataset.tab));
