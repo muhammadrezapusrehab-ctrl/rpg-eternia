@@ -60,7 +60,7 @@ arcs:{title:'Plot Besar',html:`<div class="loreSection"><h3>Enam Arc</h3><ol>
 };
 const c=document.getElementById('world'),ctx=c.getContext('2d'),W=960,H=540,keys={};window.elariaMap=new Image();window.elariaMap.src='assets/maps/elaria.svg';
 let state='title',sceneIndex=0,scenes=[],map='dream',enemy=null,chapter=1,canExplore=false;
-const p={x:480,y:420,hp:40,maxHp:40,level:1,exp:0,frag:0,clock:false,pendant:false,ruinSolved:false,ruinBattle:false};
+const p={x:480,y:420,hp:40,maxHp:40,level:1,exp:0,frag:0,clock:false,pendant:false,ruinSolved:false,ruinBattle:false,puzzleSeq:[],puzzleOpen:false,wraithDefeated:false};
 const sceneArt=document.getElementById('sceneArt');
 const artByChapter={'CHAPTER 1 · MIMPI YANG SELALU SAMA':'assets/art/scenes/chapter1.jpg','CHAPTER 2 · DESA ELARIA':'assets/art/scenes/chapter2.jpg','CHAPTER 3 · ANAK YATIM PEMBAWA SIAL':'assets/art/scenes/chapter3.jpg'};
 const npc={bram:{x:690,y:245,name:'Tuan Bram'},aldric:{x:270,y:210,name:'Aldric'}};
@@ -196,7 +196,7 @@ document.getElementById('closeLore').onclick=()=>lore.classList.add('hidden');
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>openLore(b.dataset.tab));
 document.getElementById('start').onclick=()=>{document.getElementById('title').classList.add('hidden');chapter1Dream()};
 function chapter4(){
-map='ruins';chapter=4;p.x=85;p.y=285;
+map='ruins';chapter=4;p.x=85;p.y=285;p.ruinSolved=false;p.ruinBattle=false;p.puzzleSeq=[];p.puzzleOpen=false;
 setScenes([
 ['Narasi','Bukit Utara berdiri sunyi di balik hutan. Jalan batu tua yang tertutup lumut membawa Arkan menuju sebuah gerbang reruntuhan yang sebagian besar telah runtuh.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
 ['Arkan','Jadi... inilah tempat yang dimaksud Aldric.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
@@ -216,9 +216,9 @@ if(Math.hypot(p.x-npc.aldric.x,p.y-npc.aldric.y)<60&&chapter===2){chapter3();ret
 if(Math.hypot(p.x-480,p.y-335)<75&&chapter===1){p.clock=true;p.frag=1;chapter=2;updateHud();flash('Jam saku kuno mulai berdetak.');chapter2();return}
 }
 if(map==='ruins'){
-if(Math.hypot(p.x-805,p.y-285)<75&&!p.ruinSolved){
-p.ruinSolved=true;p.frag++;updateHud();
-setScenes([
+if(Math.hypot(p.x-805,p.y-285)<75&&!p.ruinSolved&&!p.puzzleOpen){openPuzzle();return}
+if(Math.hypot(p.x-480,p.y-275)<80&&p.ruinSolved&&!p.ruinBattle&&!p.wraithDefeated){p.ruinBattle=true;startBattle();return}
+}
 ['Narasi','Arkan menyentuhkan liontin pada ukiran pintu. Tujuh garis bercahaya, lalu tiga simbol menyala satu demi satu.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
 ['Suara Misterius','Kau membawa tanda yang seharusnya telah hilang dari dunia.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
 ['Narasi','Pintu batu bergeser. Di baliknya terdapat sebuah ruang bundar dan sebuah artefak berbentuk jam saku raksasa yang tertanam di dinding.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
@@ -227,8 +227,10 @@ setScenes([
 ['Narasi','Salah satu sosok menoleh kepadanya. Wajahnya tidak terlihat. Namun Arkan mendengar satu kata.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
 ['Suara Misterius','Aurelion.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA']
 ]);return}
-if(Math.hypot(p.x-480,p.y-275)<80&&!p.ruinBattle){p.ruinBattle=true;startBattle();return}
-}}
+}
+function openPuzzle(){p.puzzleOpen=true;p.puzzleSeq=[];state='puzzle';document.getElementById('puzzle').classList.remove('hidden');document.getElementById('puzzleStatus').textContent='Urutan: 0 / 3';}
+function closePuzzle(){p.puzzleOpen=false;state='world';document.getElementById('puzzle').classList.add('hidden');}
+function puzzlePick(v){if(!p.puzzleOpen)return;const expected=['circle','eye','clock'][p.puzzleSeq.length];if(v!==expected){p.puzzleSeq=[];document.getElementById('puzzleStatus').textContent='Salah. Segel menolak ingatan itu — urutan kembali 0 / 3.';flash('Segel Aurelion menolak pilihanmu.');return}p.puzzleSeq.push(v);document.getElementById('puzzleStatus').textContent='Urutan: '+p.puzzleSeq.length+' / 3';if(p.puzzleSeq.length===3){closePuzzle();p.ruinSolved=true;p.frag++;updateHud();setScenes([['Narasi','Arkan menyentuhkan liontin pada ukiran pintu. Tujuh garis bercahaya, lalu tiga simbol menyala satu demi satu.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],['Suara Misterius','Kau membawa tanda yang seharusnya telah hilang dari dunia.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],['Narasi','Pintu batu bergeser. Di baliknya terdapat ruang bundar dan sebuah artefak berbentuk jam saku raksasa yang tertanam di dinding.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],['Arkan','Jam... lagi?','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],['Narasi','Ketika tangan Arkan menyentuh artefak itu, seluruh ruangan dipenuhi bayangan masa lalu. Tujuh sosok berdiri di hadapan cahaya hitam.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],['Suara Misterius','Aurelion.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA']]);}}
 function startBattle(){enemy={name:'Forgotten Wraith',hp:28,maxHp:28};state='battle';document.getElementById('battle').classList.remove('hidden');document.getElementById('battleLog').textContent='Sesuatu dari masa lalu menemukan Arkan.';renderBattle()}
 function renderBattle(){document.getElementById('enemyName').textContent=enemy.name;document.getElementById('stats').textContent='Musuh HP '+enemy.hp+'/'+enemy.maxHp+' · Arkan HP '+p.hp+'/'+p.maxHp}
 function endBattle(msg){enemy=null;state='world';document.getElementById('battle').classList.add('hidden');flash(msg);updateHud()}
