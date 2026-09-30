@@ -219,14 +219,6 @@ if(map==='ruins'){
 if(Math.hypot(p.x-805,p.y-285)<75&&!p.ruinSolved&&!p.puzzleOpen){openPuzzle();return}
 if(Math.hypot(p.x-480,p.y-275)<80&&p.ruinSolved&&!p.ruinBattle&&!p.wraithDefeated){p.ruinBattle=true;startBattle();return}
 }
-['Narasi','Arkan menyentuhkan liontin pada ukiran pintu. Tujuh garis bercahaya, lalu tiga simbol menyala satu demi satu.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
-['Suara Misterius','Kau membawa tanda yang seharusnya telah hilang dari dunia.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
-['Narasi','Pintu batu bergeser. Di baliknya terdapat sebuah ruang bundar dan sebuah artefak berbentuk jam saku raksasa yang tertanam di dinding.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
-['Arkan','Jam... lagi?','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
-['Narasi','Ketika tangan Arkan menyentuh artefak itu, seluruh ruangan dipenuhi bayangan masa lalu. Untuk sesaat, ia melihat tujuh sosok berdiri di hadapan sebuah cahaya hitam.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
-['Narasi','Salah satu sosok menoleh kepadanya. Wajahnya tidak terlihat. Namun Arkan mendengar satu kata.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
-['Suara Misterius','Aurelion.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA']
-]);return}
 }
 function openPuzzle(){p.puzzleOpen=true;p.puzzleSeq=[];state='puzzle';document.getElementById('puzzle').classList.remove('hidden');document.getElementById('puzzleStatus').textContent='Urutan: 0 / 3';}
 function closePuzzle(){p.puzzleOpen=false;state='world';document.getElementById('puzzle').classList.add('hidden');}
