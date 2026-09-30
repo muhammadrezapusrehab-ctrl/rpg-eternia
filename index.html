@@ -4,8 +4,8 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>The Last Keeper of Eternia</title>
 <style>
-:root{--gold:#e7cf8a;--panel:#090d15ee;--line:#766b4c;--muted:#9da5b5}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#1a1e2c,#05070b 75%);color:#eee;font-family:Georgia,serif;display:flex;justify-content:center;min-height:100vh}.game{width:min(1000px,98vw);padding:14px 0 20px}header{display:flex;justify-content:space-between;align-items:end;padding:4px 5px 10px}h1{margin:0;color:var(--gold);font-size:25px;text-shadow:0 2px 12px #000}header span{color:#8d95a7;font:11px Arial}.screen{position:relative;border:2px solid #363b4c;box-shadow:0 15px 45px #000;overflow:hidden}canvas{display:block;width:100%;height:auto;image-rendering:pixelated}.hud{display:flex;gap:10px;justify-content:space-between;background:#0d111b;border:1px solid #292f40;padding:10px 12px;margin-top:8px;font:12px Arial}.hudbox{min-width:145px;line-height:1.5}.gold{color:var(--gold);font-weight:bold}.objective{color:#c9ced8}.bar{height:6px;background:#292e38;margin-top:3px;border-radius:4px;overflow:hidden}.hpbar{height:100%;background:#b84c4c}.expbar{height:100%;background:#c4a452}.overlay{position:absolute;left:4%;right:4%;bottom:4%;background:var(--panel);border:1px solid #a9935d;padding:14px 16px;z-index:10;box-shadow:0 8px 30px #000}.speaker{color:var(--gold);font-weight:bold;font-size:16px}.text{line-height:1.65;min-height:64px;margin:8px 0 12px;white-space:pre-line}.btn{background:#171e2c;color:#f5e9c5;border:1px solid #656c7d;padding:8px 18px;border-radius:3px;cursor:pointer}.btn:hover{background:#2b374d}.hidden{display:none!important}.title{position:absolute;inset:0;background:linear-gradient(#060914e8,#080b12ef);z-index:20;display:flex;align-items:center;justify-content:center;text-align:center}.title h2{font-size:39px;color:var(--gold);margin:0 0 8px}.title p{color:#b2b8c6;max-width:620px;line-height:1.6}.start{font-size:16px;margin-top:15px}.toast{position:absolute;top:12px;left:50%;transform:translateX(-50%);background:#080b12ed;border:1px solid #8e7b4e;padding:9px 15px;color:#ead9aa;z-index:15}.battleTitle{text-align:center;color:var(--gold);font-size:20px}.enemy{text-align:center;font-size:60px;padding:7px}.stats{text-align:center;font:13px Arial}.actions{display:flex;justify-content:center;gap:8px;margin:12px}.help{text-align:center;color:#707888;font:11px Arial;margin:8px}.chapterBadge{color:#c7cbd6}@media(max-width:650px){header{display:block}header span{display:block;margin-top:5px}.hud{flex-wrap:wrap}.hudbox{min-width:125px}.title h2{font-size:27px}}
+:root{--gold:#ead49a;--gold2:#b99857;--violet:#9e7bd1;--violet2:#5e4a88;--ink:#060811;--panel:#090c14ee;--line:#74633f;--muted:#9da5b5;--glass:#101522d9}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#34304d 0,#121521 30%,#05060a 72%);color:#eee;font-family:Georgia,serif;display:flex;justify-content:center;min-height:100vh;overflow-x:hidden}.game{width:min(1000px,98vw);padding:14px 0 20px}header{display:flex;justify-content:space-between;align-items:end;padding:4px 5px 10px}h1{margin:0;color:var(--gold);font-size:25px;text-shadow:0 2px 12px #000}header span{color:#8d95a7;font:11px Arial}.screen{position:relative;border:1px solid #786a49;box-shadow:0 18px 70px #000,0 0 35px #3d2e5a66;overflow:hidden;border-radius:3px}.screen:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#0008,transparent 16%,transparent 84%,#0008),linear-gradient(0deg,#0007,transparent 18%,transparent 82%,#0005);z-index:5}canvas{display:block;width:100%;height:auto;image-rendering:auto;background:#080a11}.hud{display:flex;gap:10px;justify-content:space-between;background:#0d111b;border:1px solid #292f40;padding:10px 12px;margin-top:8px;font:12px Arial}.hudbox{min-width:145px;line-height:1.5}.gold{color:var(--gold);font-weight:bold}.objective{color:#c9ced8}.bar{height:6px;background:#292e38;margin-top:3px;border-radius:4px;overflow:hidden}.hpbar{height:100%;background:#b84c4c}.expbar{height:100%;background:#c4a452}.overlay{position:absolute;left:4%;right:4%;bottom:4%;background:linear-gradient(135deg,#080b13f5,#101522ed);border:1px solid #a9935d;padding:15px 18px;z-index:10;box-shadow:0 10px 40px #000,0 0 25px #57447a44;backdrop-filter:blur(4px)}.speaker{color:var(--gold);font-weight:bold;font-size:16px}.text{line-height:1.65;min-height:64px;margin:8px 0 12px;white-space:pre-line}.btn{background:#171e2c;color:#f5e9c5;border:1px solid #656c7d;padding:8px 18px;border-radius:3px;cursor:pointer}.btn:hover{background:#2b374d}.hidden{display:none!important}.title{position:absolute;inset:0;background:radial-gradient(circle at 50% 42%,#55476a66 0,#090b14dd 38%,#03040aeF 100%);z-index:20;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}.title:before{content:"";position:absolute;width:420px;height:420px;border:1px solid #c9ad70aa;border-radius:50%;box-shadow:0 0 80px #7f61ad55,inset 0 0 70px #7f61ad33;animation:clockGlow 5s ease-in-out infinite}.title:after{content:"✦  ·  ✧  ·  ✦";position:absolute;top:15%;color:#e5d29a88;letter-spacing:18px;font-size:18px;animation:drift 7s linear infinite}@keyframes clockGlow{50%{transform:scale(1.04);opacity:.65}}@keyframes drift{50%{transform:translateY(10px)}}.title h2{position:relative;font-size:42px;letter-spacing:2px;color:var(--gold);margin:0 0 8px;text-shadow:0 2px 18px #000,0 0 24px #8d6db855}.title p{color:#b2b8c6;max-width:620px;line-height:1.6}.start{font-size:16px;margin-top:15px}.toast{position:absolute;top:12px;left:50%;transform:translateX(-50%);background:#080b12ed;border:1px solid #8e7b4e;padding:9px 15px;color:#ead9aa;z-index:15}.battleTitle{text-align:center;color:var(--gold);font-size:20px}.enemy{text-align:center;font-size:60px;padding:7px}.stats{text-align:center;font:13px Arial}.actions{display:flex;justify-content:center;gap:8px;margin:12px}.help{text-align:center;color:#707888;font:11px Arial;margin:8px}.chapterBadge{color:#c7cbd6}@media(max-width:650px){header{display:block}header span{display:block;margin-top:5px}.hud{flex-wrap:wrap}.hudbox{min-width:125px}.title h2{font-size:27px}}
 .loreBtn{position:absolute;top:12px;right:12px;z-index:12;padding:6px 12px}.lore{position:absolute;inset:0;background:#05070bea;z-index:30;display:flex;align-items:center;justify-content:center;padding:25px}.lorePanel{width:min(820px,92%);max-height:90%;overflow:auto;background:#0c111b;border:1px solid #9b8652;box-shadow:0 20px 50px #000;padding:22px}.lorePanel h2{color:var(--gold);margin:0 0 12px}.close{float:right;background:none;border:0;color:#ddd;font-size:25px;cursor:pointer}.tabs{display:flex;gap:5px;border-bottom:1px solid #343b49;margin-bottom:15px;flex-wrap:wrap}.tab{background:#171d29;color:#bfc5d1;border:1px solid #343b49;padding:7px 12px;cursor:pointer}.tab.active{color:#f1dc9e;border-color:#9b8652}.loreSection h3{color:#d8c27e;margin:12px 0 5px}.loreSection p,.loreSection li{font:13px Arial;line-height:1.55;color:#c4cad5}.tier{display:inline-block;border:1px solid #5e6674;padding:3px 7px;margin:3px;color:#ddd}.secret{color:#a992d2!important}</style>
 </head>
 <body>
@@ -67,9 +67,77 @@ function text(x,y,t,size,col){ctx.fillStyle=col;ctx.font=size+'px Georgia';ctx.f
 function tree(x,y){ctx.fillStyle='#142018';ctx.fillRect(x-7,y+18,14,30);ctx.fillStyle='#263f2b';ctx.beginPath();ctx.arc(x,y,31,0,7);ctx.fill();ctx.fillStyle='#426a40';ctx.beginPath();ctx.arc(x-8,y-8,23,0,7);ctx.fill()}
 function house(x,y,col){rect(x,y,145,90,col);ctx.fillStyle='#3b2930';ctx.beginPath();ctx.moveTo(x-10,y);ctx.lineTo(x+72,y-48);ctx.lineTo(x+155,y);ctx.fill();rect(x+55,y+45,35,45,'#2f2529');rect(x+16,y+23,27,22,'#9b7655')}
 function person(x,y,skin,hair,hero){ctx.fillStyle='#11151b';ctx.fillRect(x-12,y+18,9,7);ctx.fillRect(x+3,y+18,9,7);ctx.fillStyle=skin;ctx.fillRect(x-10,y-7,20,25);ctx.beginPath();ctx.arc(x,y-17,10,0,7);ctx.fill();ctx.fillStyle=hair;ctx.fillRect(x-10,y-27,20,8);if(hero){ctx.fillStyle='#d2b866';ctx.fillRect(x-13,y+18,9,4);ctx.fillRect(x+4,y+18,9,4)}}
+function glowCircle(x,y,r,color,alpha=1){
+const g=ctx.createRadialGradient(x,y,0,x,y,r);
+g.addColorStop(0,color.replace(')',','+alpha+')').replace('rgb(','rgba('));
+g.addColorStop(.35,color.replace(')',',.25)').replace('rgb(','rgba('));
+g.addColorStop(1,'rgba(0,0,0,0)');
+ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();
+}
+function clockFace(x,y,r,hand=0){
+ctx.save();ctx.translate(x,y);
+ctx.shadowBlur=25;ctx.shadowColor='#bba06a99';
+ctx.fillStyle='#11131d';ctx.beginPath();ctx.arc(0,0,r+8,0,Math.PI*2);ctx.fill();
+ctx.strokeStyle='#d7c184';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);ctx.stroke();
+ctx.strokeStyle='#806d45';ctx.lineWidth=1;ctx.beginPath();ctx.arc(0,0,r-9,0,Math.PI*2);ctx.stroke();
+for(let i=0;i<12;i++){let a=i*Math.PI/6-Math.PI/2;let rr=r-13;ctx.fillStyle='#d6c78e';ctx.font=(i%3===0?'bold 12px':'10px')+' Georgia';ctx.textAlign='center';ctx.fillText(['XII','I','II','III','IV','V','VI','VII','VIII','IX','X','XI'][i],Math.cos(a)*rr,Math.sin(a)*rr+4)}
+ctx.strokeStyle='#e8d59c';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(Math.cos(hand-Math.PI/2)*(r*.58),Math.sin(hand-Math.PI/2)*(r*.58));ctx.stroke();
+ctx.strokeStyle='#b79a62';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(Math.cos(hand*12-Math.PI/2)*(r*.72),Math.sin(hand*12-Math.PI/2)*(r*.72));ctx.stroke();
+ctx.fillStyle='#f1dc9d';ctx.beginPath();ctx.arc(0,0,4,0,Math.PI*2);ctx.fill();ctx.restore();
+}
+function silhouette(x,y,scale=1,kind='ark'){
+ctx.save();ctx.translate(x,y);ctx.scale(scale,scale);
+let hair=kind==='mira'?'#191225':kind==='lyra'?'#d5d8e3':kind==='kael'?'#20171b':'#12141b';
+ctx.fillStyle='#080a10';ctx.beginPath();ctx.moveTo(-20,70);ctx.lineTo(-42,18);ctx.lineTo(-26,-18);ctx.lineTo(0,-30);ctx.lineTo(28,-18);ctx.lineTo(43,18);ctx.lineTo(20,70);ctx.closePath();ctx.fill();
+ctx.fillStyle=hair;ctx.beginPath();ctx.arc(0,-35,23,0,Math.PI*2);ctx.fill();
+ctx.fillStyle=kind==='mira'?'#a98bd0':kind==='lyra'?'#78a6d9':kind==='kael'?'#9f3038':'#9a79c7';ctx.beginPath();ctx.arc(-7,-35,3,0,Math.PI*2);ctx.arc(7,-35,3,0,Math.PI*2);ctx.fill();
+if(kind==='ark'){ctx.strokeStyle='#d7bc73';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,20,7,0,Math.PI*2);ctx.stroke()}
+if(kind==='kael'){ctx.strokeStyle='#9e3038';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(27,32);ctx.lineTo(55,-18);ctx.stroke()}
+if(kind==='lyra'){ctx.fillStyle='#4772b8';ctx.beginPath();ctx.moveTo(-18,15);ctx.lineTo(-48,55);ctx.lineTo(-5,35);ctx.closePath();ctx.fill();ctx.beginPath();ctx.moveTo(18,15);ctx.lineTo(48,55);ctx.lineTo(5,35);ctx.closePath();ctx.fill()}
+if(kind==='mira'){ctx.fillStyle='#efe6f3';ctx.beginPath();ctx.moveTo(-15,8);ctx.lineTo(-34,72);ctx.lineTo(0,55);ctx.lineTo(34,72);ctx.lineTo(15,8);ctx.closePath();ctx.fill()}
+ctx.restore();
+}
+function drawDream(){
+rect(0,0,W,H,'#070914');let sky=ctx.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#050613');sky.addColorStop(.55,'#282343');sky.addColorStop(1,'#0b0c16');rect(0,0,W,H,sky);
+glowCircle(480,160,210,'rgb(120,94,180)',.9);
+for(let i=0;i<65;i++){let x=(i*149)%W,y=(i*83)%250;ctx.fillStyle='rgba(225,218,255,'+(i%5===0?.8:.3)+')';ctx.fillRect(x,y,1.5,1.5)}
+// distant gothic skyline
+for(let i=0;i<17;i++){let x=i*62-20,w=48,h=130+(i%5)*30;ctx.fillStyle=i%2?'#15162a':'#1c1b31';ctx.fillRect(x,390-h,w,h);ctx.beginPath();ctx.moveTo(x-8,390-h);ctx.lineTo(x+w/2,390-h-55);ctx.lineTo(x+w+8,390-h);ctx.fill();ctx.fillStyle='#b7a1d866';for(let wy=0;wy<3;wy++)ctx.fillRect(x+10+wy*10,390-h+25,4,7)}
+// central cathedral
+ctx.fillStyle='#111225';ctx.beginPath();ctx.moveTo(300,410);ctx.lineTo(480,145);ctx.lineTo(660,410);ctx.closePath();ctx.fill();rect(375,270,210,140,'#111225');ctx.fillStyle='#c8b3dc66';ctx.beginPath();ctx.moveTo(480,205);ctx.lineTo(510,350);ctx.lineTo(450,350);ctx.closePath();ctx.fill();
+// giant clock
+clockFace(480,145,82,0);text(445,250,'00:00',22,'#ead8a5');
+// statues
+for(const x of [95,865]){ctx.fillStyle='#090a12';ctx.beginPath();ctx.moveTo(x-28,390);ctx.lineTo(x,205);ctx.lineTo(x+28,390);ctx.closePath();ctx.fill();ctx.fillStyle='#4d4a61';ctx.beginPath();ctx.arc(x,205,18,0,Math.PI*2);ctx.fill()}
+// Arkan and Mira
+silhouette(410,445,1.25,'ark');silhouette(650,370,.82,'mira');
+ctx.fillStyle='#b596dc';ctx.globalAlpha=.45;for(let i=0;i<14;i++){ctx.beginPath();ctx.arc(420+(i*37)%130,350+(i*31)%90,2+(i%3),0,Math.PI*2);ctx.fill()}ctx.globalAlpha=1;
+}
+function drawVillage(){
+let sky=ctx.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#78a7d1');sky.addColorStop(.6,'#c7c99f');sky.addColorStop(1,'#485b42');rect(0,0,W,H,sky);
+ctx.fillStyle='#38583d';ctx.beginPath();ctx.moveTo(0,230);ctx.quadraticCurveTo(180,120,350,220);ctx.quadraticCurveTo(530,120,700,215);ctx.quadraticCurveTo(830,130,960,210);ctx.lineTo(960,430);ctx.lineTo(0,430);ctx.fill();
+// distant Valthera
+ctx.fillStyle='#303849';ctx.beginPath();ctx.moveTo(650,205);ctx.lineTo(760,70);ctx.lineTo(870,205);ctx.closePath();ctx.fill();rect(705,155,110,80,'#303849');for(let x=675;x<870;x+=35)rect(x,175-(Math.abs(x-770)%50),8,45,'#444b5d');
+// road and fields
+ctx.fillStyle='#a58c68';ctx.beginPath();ctx.moveTo(420,240);ctx.lineTo(540,240);ctx.lineTo(710,540);ctx.lineTo(250,540);ctx.closePath();ctx.fill();
+for(let x=0;x<960;x+=25){ctx.fillStyle='#66834b';ctx.fillRect(x,430+(x%3)*4,18,2)}
+house(125,285,'#8b5e4d');house(680,280,'#7b584b');house(390,215,'#89644f');
+tree(70,285);tree(885,285);tree(105,450);tree(875,450);
+person(npc.bram.x,npc.bram.y,'#b88a69','#ddd0bc');person(npc.aldric.x,npc.aldric.y,'#c39b7b','#e0d4c1');person(p.x,p.y,'#d4a27c','#15161d',true);
+ctx.fillStyle='#e8d49a';ctx.font='bold 14px Georgia';ctx.fillText('ELARIA',18,28);
+}
+function drawRuins(){
+rect(0,0,W,H,'#080a10');let g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,'#151421');g.addColorStop(.5,'#2b2340');g.addColorStop(1,'#090a11');rect(0,0,W,H,g);
+for(let i=0;i<18;i++){let x=i*58-10;let h=110+(i%6)*22;ctx.fillStyle='#171724';ctx.fillRect(x,430-h,45,h);ctx.beginPath();ctx.moveTo(x-8,430-h);ctx.lineTo(x+22,430-h-35);ctx.lineTo(x+53,430-h);ctx.fill()}
+rect(65,250,830,70,'#11131c');rect(405,70,150,180,'#0f1119');rect(405,320,150,155,'#0f1119');
+for(let x=90;x<880;x+=70){rect(x,80,18,155,'#383542');rect(x,335,18,120,'#383542')}
+glowCircle(480,255,145,'rgb(123,81,184)',.65);clockFace(480,255,58,0);
+ctx.strokeStyle='#aa8bd1';ctx.lineWidth=2;ctx.beginPath();ctx.arc(480,255,85,0,Math.PI*2);ctx.stroke();
+for(let i=0;i<7;i++){let a=i*Math.PI*2/7;ctx.fillStyle='#d0b2e9';ctx.beginPath();ctx.arc(480+Math.cos(a)*85,255+Math.sin(a)*85,5,0,Math.PI*2);ctx.fill()}
+text(685,160,'AURELION',20,'#bda9d0');text(80,505,'RERUNTUHAN BUKIT UTARA',14,'#c9bd96');silhouette(p.x,p.y,.9,'ark');
+}
 function draw(){
-if(map==='dream'){rect(0,0,W,H,'#e8e9f1');rect(0,0,W,150,'#dfe1ea');rect(120,120,720,420,'#e9e8e4');for(let x=0;x<W;x+=80)rect(x,130,45,390,'#d7d8dc');for(let i=0;i<8;i++){rect(80+i*115,105,28,430,'#c9cbd1');}rect(390,35,180,500,'#b9bbc3');rect(405,55,150,450,'#e7e7e4');ctx.strokeStyle='#555866';ctx.lineWidth=7;ctx.beginPath();ctx.arc(480,155,75,0,7);ctx.stroke();ctx.lineWidth=2;for(let a=0;a<12;a++){let x=480+Math.cos(a*Math.PI/6)*65,y=155+Math.sin(a*Math.PI/6)*65;ctx.fillStyle='#4c4e57';ctx.fillRect(x-2,y-2,4,4)}ctx.strokeStyle='#454752';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(480,155);ctx.lineTo(480,105);ctx.moveTo(480,155);ctx.lineTo(425,155);ctx.stroke();person(480,425,'#d4a27c','#17171d',true);person(660,350,'#ead9d1','#171329',false);text(450,240,'00:00',25,'#4c4e57');}
-else{rect(0,0,W,H,'#1a291d');rect(0,0,W,155,'#243a27');rect(0,420,W,120,'#203322');rect(0,300,W,75,'#9d8a67');rect(440,155,80,385,'#9d8a67');house(165,150,'#744b3d');house(650,150,'#684a40');house(385,50,'#76503e');[[70,80],[175,75],[835,78],[88,445],[845,438],[350,92],[615,92],[55,245],[905,245]].forEach(a=>tree(a[0],a[1]));rect(415,313,130,43,'#594332');rect(435,288,90,29,'#856847');text(444,344,'OLD SHRINE',13,'#dfc780');person(npc.bram.x,npc.bram.y,'#b88a69','#ddd0bc');person(npc.aldric.x,npc.aldric.y,'#c39b7b','#e0d4c1');person(p.x,p.y,'#d4a27c','#5b3b31',true);if(p.pendant){ctx.strokeStyle='#d8bd67';ctx.lineWidth=2;ctx.beginPath();ctx.arc(p.x,p.y-2,5,0,7);ctx.stroke()}}
+if(map==='dream')drawDream();else if(map==='village')drawVillage();else drawRuins();
 }
 function setScenes(a){scenes=a;sceneIndex=0;state='story';showScene()}
 function showScene(){if(sceneIndex>=scenes.length){finishScene();return}const s=scenes[sceneIndex];document.getElementById('speaker').textContent=s[0];document.getElementById('storyText').textContent=s[1];document.getElementById('story').classList.remove('hidden');document.getElementById('chapter').textContent=s[2]||document.getElementById('chapter').textContent}
@@ -163,7 +231,7 @@ function endBattle(msg){enemy=null;state='world';document.getElementById('battle
 function battle(a){if(a==='attack'){enemy.hp-=7+Math.floor(Math.random()*5);document.getElementById('battleLog').textContent='Arkan menyerang.'}else if(a==='clock'&&p.clock){enemy.hp-=14;p.clock=false;document.getElementById('battleLog').textContent='Jam saku merobek ingatan musuh.'}else if(a==='run'&&Math.random()<.7){endBattle('Arkan berhasil melarikan diri.');return}else{document.getElementById('battleLog').textContent='Aksi gagal.'}if(enemy.hp<=0){p.exp+=12;p.frag++;endBattle('Forgotten Wraith lenyap. Memory Fragment diperoleh.');return}renderBattle();setTimeout(()=>{p.hp-=5;if(p.hp<=0){p.hp=p.maxHp;endBattle('Arkan kembali sadar di dekat desa.')}else renderBattle();updateHud()},350)}
 document.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>battle(b.dataset.a));
 function flash(s){const e=document.getElementById('toast');e.textContent=s;e.classList.remove('hidden');clearTimeout(window.t);window.t=setTimeout(()=>e.classList.add('hidden'),2400)}
-function updateHud(){document.getElementById('hp').textContent=p.hp;document.getElementById('maxhp').textContent=p.maxHp;document.getElementById('level').textContent=p.level;document.getElementById('exp').textContent=p.exp;document.getElementById('frag').textContent=p.frag;document.getElementById('clock').textContent=p.clock?'00:00 ✦':'00:00';document.getElementById('hpbar').style.width=(p.hp/p.maxHp*100)+'%';document.getElementById('expbar').style.width=Math.min(100,p.exp/20*100)+'%';document.getElementById('objective').textContent=chapter===1?'Pergilah menuju Old Shrine.':chapter===2?'Temui Aldric di rumahnya.':'Pergilah ke Bukit Utara.'}
+function updateHud(){document.getElementById('hp').textContent=p.hp;document.getElementById('maxhp').textContent=p.maxHp;document.getElementById('level').textContent=p.level;document.getElementById('exp').textContent=p.exp;document.getElementById('frag').textContent=p.frag;document.getElementById('clock').textContent=p.clock?'00:00 ✦':'00:00';document.getElementById('hpbar').style.width=(p.hp/p.maxHp*100)+'%';document.getElementById('expbar').style.width=Math.min(100,p.exp/20*100)+'%';document.getElementById('objective').textContent=chapter===1?'Jelajahi Elaria dan temukan petunjuk tentang jam saku.':chapter===2?'Temui Aldric dan cari tahu asal-usul Arkan.':chapter===3?'Pergilah ke Bukit Utara.':'Jelajahi reruntuhan dan temukan Aurelion.'}
 addEventListener('keydown',e=>{const k=e.key.toLowerCase();keys[k]=true;if(k==='e'||e.key==='Enter'){if(state==='story')document.getElementById('next').click();else interact()}if(k===' '&&state==='story')document.getElementById('next').click();if(k==='j'&&state==='world'&&p.clock){p.clock=false;flash('Jam saku ditutup.');updateHud()}});
 addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
 function update(){
@@ -176,24 +244,7 @@ if(p.clock&&Math.random()<.0007&&chapter===2)startBattle();
 if(map==='ruins'&&Math.random()<.00045&&!p.ruinBattle)startBattle();
 }
 draw();requestAnimationFrame(update)}
-const baseDraw=draw;
-draw=function(){
-if(map!=='ruins'){baseDraw();return}
-rect(0,0,W,H,'#10141a');rect(35,35,890,470,'#242932');rect(65,65,830,410,'#343a40');
-rect(65,250,830,70,'#252b32');rect(410,65,140,185,'#1d2229');rect(410,320,140,155,'#1d2229');
-for(let x=95;x<880;x+=70){rect(x,82,18,155,'#454b50');rect(x,330,18,130,'#454b50')}
-rect(65,248,345,74,'#171b21');rect(550,248,345,74,'#171b21');
-ctx.strokeStyle='#59616a';ctx.lineWidth=3;ctx.strokeRect(130,110,180,95);ctx.strokeRect(650,110,180,95);
-text(150,155,'ᛉ  ᚦ  ◯  ᚲ',22,'#777f88');
-text(680,155,'AURELION',20,'#777f88');
-ctx.fillStyle='#4c3f68';ctx.beginPath();ctx.arc(480,255,52,0,7);ctx.fill();
-ctx.strokeStyle='#a990d0';ctx.lineWidth=3;ctx.beginPath();ctx.arc(480,255,42,0,7);ctx.stroke();
-for(let i=0;i<7;i++){let a=i*Math.PI*2/7;ctx.fillStyle='#c4a9df';ctx.beginPath();ctx.arc(480+Math.cos(a)*42,255+Math.sin(a)*42,5,0,7);ctx.fill()}
-rect(770,250,70,70,'#171b21');ctx.strokeStyle='#9e8b57';ctx.strokeRect(770,250,70,70);text(782,292,'◯',30,'#c8b06d');
-person(p.x,p.y,'#d4a27c','#5b3b31',true);
-if(p.ruinSolved){ctx.fillStyle='#b999dc';ctx.font='bold 14px Georgia';ctx.fillText('✦',798,235)}
-text(80,500,'RERUNTUHAN BUKIT UTARA',14,'#c9bd96');
-}
+// Visual renderer is defined above; no secondary renderer needed.
 updateHud();update();
 </script>
 </body>
