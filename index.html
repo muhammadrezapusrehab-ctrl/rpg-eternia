@@ -4,73 +4,89 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>The Last Keeper of Eternia</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#090b12;color:#eee;font-family:Georgia,serif;display:flex;justify-content:center;min-height:100vh}.screen{position:relative;border:2px solid #34394b;box-shadow:0 0 35px #000}header{padding:16px 4px 10px}h1{margin:0;color:#d8c38f;font-size:25px}header span{color:#8c91a5;font-size:13px}.hud{display:flex;justify-content:space-between;background:#111521;border:1px solid #292e3e;padding:10px 14px;font-size:13px;line-height:1.5}.help{text-align:center;color:#73798b;font:12px Arial;margin-top:8px}canvas{display:block;width:min(960px,96vw);height:auto;background:#17221b}button{background:#1c2434;color:#f4e9c8;border:1px solid #59627a;padding:9px 16px;cursor:pointer;border-radius:4px}button:hover{background:#2c374e}.hidden{display:none!important}#dialogue,#battle{position:absolute;left:4%;right:4%;bottom:4%;background:rgba(7,9,15,.96);border:1px solid #b7a16b;padding:15px;z-index:5}#speaker{color:#d8c38f;font-weight:bold;margin-bottom:7px}#dialogText{min-height:42px;line-height:1.5;margin:6px 0 10px}.battle-title{text-align:center;color:#d8c38f;font-size:21px}.enemy{text-align:center;font-size:65px;padding:12px}.battle-stats{text-align:center}.actions{display:flex;gap:8px;justify-content:center;margin:12px}.actions button{min-width:110px}.battleLog{text-align:center;color:#bfc5d4;min-height:20px}#message{position:absolute;top:12px;left:50%;transform:translateX(-50%);background:rgba(8,10,16,.9);padding:9px 14px;border:1px solid #8e7b4e;z-index:4;color:#ead9aa}@media(max-width:600px){h1{font-size:19px}.hud{font-size:11px}.actions button{min-width:80px;padding:8px 5px}}
+:root{--gold:#e7cf8a;--panel:#0b0e16e8;--line:#5d5a4d;--muted:#8d94a6}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#171b2a,#05070b 70%);color:#eee;font-family:Georgia,serif;display:flex;justify-content:center;min-height:100vh}.game{width:min(1000px,98vw);padding:14px 0 20px}header{display:flex;justify-content:space-between;align-items:end;padding:4px 5px 10px}h1{margin:0;color:var(--gold);font-size:26px;letter-spacing:.5px;text-shadow:0 2px 12px #000}header span{color:#8f96a8;font:12px Arial}.screen{position:relative;border:2px solid #34394b;background:#0a0d12;box-shadow:0 15px 45px #000;overflow:hidden}canvas{display:block;width:100%;height:auto;image-rendering:pixelated}.hud{display:flex;gap:12px;justify-content:space-between;background:#0d111b;border:1px solid #292f40;padding:10px 13px;margin-top:8px;box-shadow:0 6px 18px #0008}.hudbox{min-width:180px;font:13px Arial;line-height:1.5}.name{color:var(--gold);font-weight:bold}.bar{height:7px;background:#292d36;border-radius:5px;overflow:hidden;margin-top:4px}.hpbar{height:100%;width:100%;background:#b84b4b}.expbar{height:100%;width:0;background:#c2a14c}.objective{color:#c6cad5}.help{text-align:center;color:#717889;font:11px Arial;margin:8px 0}.overlay{position:absolute;left:4%;right:4%;bottom:4%;background:var(--panel);border:1px solid #a9945e;padding:14px 16px;z-index:5;box-shadow:0 8px 25px #000}.speaker{color:var(--gold);font-weight:bold;font-size:16px;margin-bottom:5px}.dialogtext{min-height:42px;line-height:1.5;margin:5px 0 11px}.btn{background:#171e2c;color:#f4e9c8;border:1px solid #646b7c;padding:8px 16px;cursor:pointer;border-radius:3px}.btn:hover{background:#29344a}.hidden{display:none!important}.battleTitle{text-align:center;color:var(--gold);font-size:21px}.enemyArt{text-align:center;font-size:62px;padding:7px}.battleStats{text-align:center;font:13px Arial}.actions{display:flex;gap:8px;justify-content:center;margin:11px}.actions .btn{min-width:105px}.battleLog{text-align:center;color:#bec5d4;min-height:20px;margin:6px}.toast{position:absolute;top:12px;left:50%;transform:translateX(-50%);background:#080b12eF;padding:9px 15px;border:1px solid #8e7b4e;z-index:6;color:#ead9aa;white-space:nowrap;max-width:90%;overflow:hidden;text-overflow:ellipsis}.titlecard{position:absolute;inset:0;background:linear-gradient(#080b12eF,#090b12e9);z-index:10;display:flex;align-items:center;justify-content:center;text-align:center}.titleinner{max-width:650px;padding:30px}.titleinner h2{font-size:38px;color:var(--gold);margin:0 0 7px}.titleinner p{color:#aeb4c2;line-height:1.6}.start{margin-top:18px;font-size:16px;padding:11px 24px}@media(max-width:650px){h1{font-size:19px}header{align-items:start;gap:8px;flex-direction:column}.hud{font-size:11px}.hudbox{min-width:0}.objective{max-width:150px}.titleinner h2{font-size:27px}}
 </style>
 </head>
 <body>
-<main id="game">
-  <header><h1>The Last Keeper of Eternia</h1><span id="chapter">Chapter 1 · The Clock That Should Not Tick</span></header>
-  <section class="screen">
-    <canvas id="world" width="960" height="540"></canvas>
-    <div id="dialogue" class="hidden"><div id="speaker"></div><p id="dialogText"></p><button id="next">Lanjut</button></div>
-    <div id="battle" class="hidden">
-      <div class="battle-title" id="enemyName"></div>
-      <div class="enemy" id="enemyArt">☠</div>
-      <div class="battle-stats" id="battleStats"></div>
-      <div class="actions"><button data-action="attack">Serang</button><button data-action="clock">Jam Saku</button><button data-action="run">Lari</button></div>
-      <p id="battleLog"></p>
-    </div>
-    <div id="message" class="hidden"></div>
-  </section>
-  <section class="hud">
-    <div><b>Arkan Veyron</b><br>HP <span id="hp">40</span>/40 · Lv. 1 · EXP <span id="exp">0</span>/20</div>
-    <div>⌚ Jam Saku: <span id="clockState">00:00</span><br>◈ Memory Fragments: <span id="fragments">0</span></div>
-  </section>
-  <p class="help">WASD / Arrow Keys: bergerak · E / Enter: interaksi · J: jam saku · Esc: tutup</p>
+<main class="game">
+<header><div><h1>The Last Keeper of Eternia</h1><span>Penjaga Terakhir Eternia</span></div><span id="chapter">CHAPTER 1 · THE CLOCK THAT SHOULD NOT TICK</span></header>
+<section class="screen">
+<canvas id="world" width="960" height="540"></canvas>
+<div id="titlecard" class="titlecard"><div class="titleinner"><h2>The Last Keeper of Eternia</h2><p>Lima ratus tahun setelah <i>Malam Tanpa Fajar</i>, sebuah jam saku yang seharusnya telah mati kembali berdetak.</p><button class="btn start" id="start">Mulai Perjalanan</button></div></div>
+<div id="dialogue" class="overlay hidden"><div class="speaker" id="speaker"></div><div class="dialogtext" id="dialogText"></div><button class="btn" id="next">Lanjut</button></div>
+<div id="battle" class="overlay hidden"><div class="battleTitle" id="enemyName"></div><div class="enemyArt" id="enemyArt">☠</div><div class="battleStats" id="battleStats"></div><div class="actions"><button class="btn" data-action="attack">Serang</button><button class="btn" data-action="clock">Jam Saku</button><button class="btn" data-action="run">Lari</button></div><div class="battleLog" id="battleLog"></div></div>
+<div id="toast" class="toast hidden"></div>
+</section>
+<section class="hud">
+<div class="hudbox"><span class="name">Arkan Veyron</span><br>HP <b id="hp">40</b>/<span id="maxhp">40</span> · Lv. <b id="level">1</b><div class="bar"><div id="hpbar" class="hpbar"></div></div></div>
+<div class="hudbox">EXP <b id="exp">0</b>/20<div class="bar"><div id="expbar" class="expbar"></div></div></div>
+<div class="hudbox objective"><b>Tujuan</b><br><span id="objective">Pergilah ke Old Shrine.</span></div>
+<div class="hudbox">⌚ Jam Saku<br><b id="clockState">00:00</b> · ◈ <b id="fragments">0</b></div>
+</section>
+<p class="help">WASD / Arrow Keys: bergerak · E / Enter: interaksi · J: jam saku · Esc: lanjut dialog</p>
 </main>
 <script>
-const c=document.getElementById('world'),ctx=c.getContext('2d');
-const W=960,H=540,T=48;
-const keys={};let state='world',dialogIndex=0,dialog=[],enemy=null,moveLock=0;
-const player={x:480,y:385,hp:40,maxHp:40,exp:0,level:1,fragments:0,clock:false};
-const npcs=[{x:275,y:245,name:'Elda',color:'#e5c7a1',lines:['Kau terlihat gelisah, Arkan. Ada sesuatu di hutan?','Tidak... mungkin aku hanya merasa seolah seseorang sedang mengawasiku.']},
-{x:690,y:245,name:'Old Bram',color:'#b88d68',lines:['Dulu ada kisah tentang tujuh raja.','Tapi anehnya, setiap kali kucoba mengingat wajah mereka... pikiranku kosong.']}];
-const trees=[[80,80],[180,75],[840,75],[90,430],[840,430],[350,90],[610,90],[60,250],[900,250]];
-const rocks=[[145,350],[790,350],[400,455],[560,455]];
+const c=document.getElementById('world'),ctx=c.getContext('2d'),W=960,H=540,keys={};
+let state='title',dialogIndex=0,dialog=[],enemy=null,visionDone=false,attackTriggered=false;
+const player={x:480,y:390,hp:40,maxHp:40,exp:0,level:1,fragments:0,clock:false};
+const npcs=[
+{x:270,y:245,name:'Elda',color:'#e4c09b',hair:'#4b3030',lines:['Kau terlihat gelisah, Arkan. Ada sesuatu di hutan?','Entah kenapa sejak pagi aku merasa desa ini... berbeda.']},
+{x:690,y:245,name:'Old Bram',color:'#b48a68',hair:'#ddd0bc',lines:['Dulu ada kisah tentang tujuh raja.','Anehnya, setiap kali kucoba mengingat wajah mereka, pikiranku kosong.']}
+];
+const trees=[[70,80],[175,75],[835,78],[88,445],[845,438],[350,92],[615,92],[55,245],[905,245],[145,185],[795,185]];
+const rocks=[[145,350],[790,350],[390,465],[570,465]];
 function rect(x,y,w,h,col){ctx.fillStyle=col;ctx.fillRect(x,y,w,h)}
+function house(x,y,col){rect(x,y,145,90,col);ctx.fillStyle='#3b2930';ctx.beginPath();ctx.moveTo(x-12,y);ctx.lineTo(x+72,y-50);ctx.lineTo(x+157,y);ctx.closePath();ctx.fill();rect(x+54,y+46,38,44,'#30242a');rect(x+15,y+22,27,22,'#9c7654');rect(x+103,y+22,27,22,'#9c7654')}
+function tree(x,y){ctx.fillStyle='#17251a';ctx.fillRect(x-7,y+18,14,26);ctx.fillStyle='#24472b';ctx.beginPath();ctx.arc(x,y,31,0,Math.PI*2);ctx.fill();ctx.fillStyle='#3b6b3d';ctx.beginPath();ctx.arc(x-7,y-8,23,0,Math.PI*2);ctx.fill();ctx.fillStyle='#527c48';ctx.fillRect(x-13,y-21,8,6)}
+function person(x,y,skin,hair,hero=false){ctx.fillStyle='#11151b';ctx.fillRect(x-13,y+18,9,8);ctx.fillRect(x+4,y+18,9,8);ctx.fillStyle=skin;ctx.fillRect(x-10,y-8,20,27);ctx.beginPath();ctx.arc(x,y-18,10,0,Math.PI*2);ctx.fill();ctx.fillStyle=hair;ctx.fillRect(x-10,y-27,20,7);if(hero){ctx.fillStyle='#c8a85d';ctx.fillRect(x-13,y+18,9,4);ctx.fillRect(x+4,y+18,9,4);ctx.fillStyle='#59677b';ctx.fillRect(x+10,y-5,4,23)}}
 function draw(){
- rect(0,0,W,H,'#1d2b20'); rect(0,0,W,155,'#263a28'); rect(0,420,W,120,'#243525');
- // paths
- rect(0,300,W,75,'#a28d68');rect(440,155,80,385,'#a28d68');
- // village houses
- house(165,150,'#744b3d');house(650,150,'#684b40');house(385,50,'#78513f');
- trees.forEach(([x,y])=>{ctx.fillStyle='#132018';ctx.beginPath();ctx.arc(x,y,27,0,Math.PI*2);ctx.fill();ctx.fillStyle='#3e633f';ctx.beginPath();ctx.arc(x,y-7,22,0,Math.PI*2);ctx.fill();});
- rocks.forEach(([x,y])=>{ctx.fillStyle='#59605a';ctx.beginPath();ctx.ellipse(x,y,19,12,0,0,Math.PI*2);ctx.fill()});
- // shrine
- rect(420,315,120,40,'#5e4635');rect(438,290,84,28,'#8b6c48');ctx.fillStyle='#d7bf80';ctx.font='18px Georgia';ctx.fillText('OLD SHRINE',438,343);
- npcs.forEach(n=>person(n.x,n.y,n.color));
- person(player.x,player.y,'#d4a27c',true);
- if(player.clock){ctx.fillStyle='#d9c27f';ctx.beginPath();ctx.arc(760,420,15,0,Math.PI*2);ctx.fill();ctx.fillStyle='#1d2b20';ctx.fillRect(759,408,2,13)}
+rect(0,0,W,H,'#1a291d');rect(0,0,W,155,'#243a27');rect(0,420,W,120,'#203322');
+rect(0,300,W,75,'#9d8a67');rect(440,155,80,385,'#9d8a67');
+ctx.fillStyle='#b6a27b';ctx.fillRect(0,300,W,4);ctx.fillRect(0,371,W,4);
+house(165,150,'#744b3d');house(650,150,'#684a40');house(385,50,'#76503e');
+trees.forEach(t=>tree(...t));rocks.forEach(([x,y])=>{ctx.fillStyle='#59605a';ctx.beginPath();ctx.ellipse(x,y,20,12,0,0,Math.PI*2);ctx.fill();});
+rect(415,313,130,43,'#594332');rect(435,288,90,29,'#856847');rect(450,273,60,18,'#5e4a35');
+ctx.fillStyle='#dfc780';ctx.font='bold 13px Georgia';ctx.fillText('OLD SHRINE',444,344);
+if(player.clock){ctx.strokeStyle='#d9c27f';ctx.lineWidth=3;ctx.beginPath();ctx.arc(760,420,16,0,Math.PI*2);ctx.stroke();ctx.lineWidth=1;ctx.fillStyle='#d9c27f';ctx.fillRect(759,406,2,15)}
+npcs.forEach(n=>person(n.x,n.y,n.color,n.hair));
+person(player.x,player.y,'#d4a27c','#5b3b31',true);
+if(visionDone&&!attackTriggered){ctx.fillStyle='#e2c977';ctx.font='12px Arial';ctx.fillText('✦',player.x-5,player.y-38)}
 }
-function house(x,y,col){rect(x,y,145,90,col);ctx.fillStyle='#3c2830';ctx.beginPath();ctx.moveTo(x-10,y);ctx.lineTo(x+72,y-48);ctx.lineTo(x+155,y);ctx.fill();rect(x+55,y+45,35,45,'#33272b')}
-function person(x,y,col,hero=false){ctx.fillStyle=col;ctx.beginPath();ctx.arc(x,y-17,10,0,Math.PI*2);ctx.fill();rect(x-10,y-7,20,25,col);if(hero){ctx.fillStyle='#d8c38f';ctx.fillRect(x-13,y+18,10,4);ctx.fillRect(x+3,y+18,10,4)}}
 function nearNpc(){return npcs.find(n=>Math.hypot(n.x-player.x,n.y-player.y)<55)}
+function nearShrine(){return Math.hypot(480-player.x,335-player.y)<75}
+function nearExit(){return player.x<55||player.x>905||player.y>505}
 function startDialog(speaker,lines,after){dialog=lines;dialogIndex=0;document.getElementById('speaker').textContent=speaker;document.getElementById('dialogue').classList.remove('hidden');state='dialog';dialog.after=after;showLine()}
 function showLine(){document.getElementById('dialogText').textContent=dialog[dialogIndex]||''}
 document.getElementById('next').onclick=()=>{if(dialogIndex<dialog.length-1){dialogIndex++;showLine()}else{document.getElementById('dialogue').classList.add('hidden');state='world';if(dialog.after)dialog.after()}};
-function startClockVision(){player.clock=true;player.fragments++;updateHud();startDialog('Memory Fragment I',['Bayangan seorang raja berdiri di tengah desa.','Wajahnya tidak dapat kau lihat. Namun suaranya terdengar jelas.','“Jika kau dapat melihatku... berarti mereka telah gagal menghapus semuanya.”'],()=>flash('Jam saku berdetak untuk pertama kalinya dalam 500 tahun.'))}
-function interact(){if(state!=='world')return;const n=nearNpc();if(n){startDialog(n.name,n.lines);return}if(Math.hypot(480-player.x,350-player.y)<75&&!player.clock){startClockVision();return}if(Math.hypot(480-player.x,350-player.y)<75&&player.clock){flash('Prasasti tua: “Malam Tanpa Fajar bukanlah akhir. Itu adalah penghapusan.”');return}if(player.clock&&Math.random()<.2)startBattle()}
+document.getElementById('start').onclick=()=>{document.getElementById('titlecard').classList.add('hidden');state='world';startDialog('Arkan Veyron',['Pagi itu seharusnya sama seperti hari-hari lainnya.','Namun sejak bangun tidur, Arkan merasakan sesuatu yang asing... seolah ada masa lalu yang sedang mencoba mengingatnya kembali.'],()=>flash('Tujuan diperbarui: pergilah ke Old Shrine.'))};
+function startClockVision(){player.clock=true;player.fragments=1;visionDone=true;document.getElementById('objective').textContent='Bicaralah dengan seseorang di desa.';updateHud();startDialog('Memory Fragment I',['Bayangan seorang raja berdiri di tengah desa.','Wajahnya tidak dapat kau lihat. Namun suaranya terdengar jelas.','“Jika kau dapat melihatku... berarti mereka telah gagal menghapus semuanya.”'],()=>flash('Jam saku berdetak untuk pertama kalinya dalam 500 tahun.'))}
+function triggerAttack(){attackTriggered=true;document.getElementById('objective').textContent='Bertahan dari makhluk yang datang.';startDialog('Arkan',['Apa... itu? Mereka datang karena jam ini?'],()=>startBattle())}
+function interact(){
+if(state!=='world')return;
+const n=nearNpc();
+if(n){startDialog(n.name,n.lines);return}
+if(nearShrine()&&!player.clock){startClockVision();return}
+if(nearShrine()&&player.clock){flash('Prasasti tua: “Malam Tanpa Fajar bukanlah akhir. Itu adalah penghapusan.”');return}
+if(player.clock&&!attackTriggered&&nearExit()){triggerAttack();return}
+if(player.clock&&!attackTriggered&&Math.random()<.12)startBattle()
+}
 function startBattle(){enemy={name:'Forgotten Wraith',hp:28,maxHp:28};state='battle';document.getElementById('battle').classList.remove('hidden');document.getElementById('battleLog').textContent='Sesuatu yang seharusnya telah dilupakan muncul.';renderBattle()}
 function renderBattle(){document.getElementById('enemyName').textContent=enemy.name;document.getElementById('battleStats').textContent='HP Musuh: '+enemy.hp+'/'+enemy.maxHp+' · Arkan: '+player.hp+'/'+player.maxHp}
 document.querySelectorAll('[data-action]').forEach(b=>b.onclick=()=>battleAction(b.dataset.action));
-function battleAction(a){if(state!=='battle')return;if(a==='attack'){let d=7+Math.floor(Math.random()*5);enemy.hp-=d;log('Arkan menyerang dan memberikan '+d+' damage.')}else if(a==='clock'){if(player.clock){enemy.hp-=14;player.clock=false;log('Jam saku membuka celah dalam ingatan musuh. 14 damage.')}else log('Jam saku tidak merespons.')}else{if(Math.random()<.65){endBattle('Arkan berhasil melarikan diri.');return}else log('Tidak bisa lari!')}if(enemy.hp<=0){player.exp+=12;player.fragments++;if(player.exp>=20){player.level++;player.exp-=20;player.maxHp+=8;player.hp=player.maxHp}endBattle('Bayangan itu lenyap. Sebuah Memory Fragment tertinggal.');return}setTimeout(()=>{let d=4+Math.floor(Math.random()*5);player.hp-=d;log(enemy.name+' menyerang: -'+d+' HP.');if(player.hp<=0){player.hp=player.maxHp;endBattle('Arkan terbangun kembali di dekat shrine.');}updateHud();},450);renderBattle()}
+function battleAction(a){if(state!=='battle')return;
+if(a==='attack'){let d=7+Math.floor(Math.random()*5);enemy.hp-=d;log('Arkan menyerang dan memberikan '+d+' damage.')}
+else if(a==='clock'){if(player.clock){enemy.hp-=14;player.clock=false;log('Jam saku membuka celah dalam ingatan musuh. 14 damage.')}else log('Jam saku tidak merespons.')}
+else{if(Math.random()<.65){endBattle('Arkan berhasil melarikan diri.');return}else log('Tidak bisa lari!')}
+if(enemy.hp<=0){player.exp+=12;player.fragments++;if(player.exp>=20){player.level++;player.exp-=20;player.maxHp+=8;player.hp=player.maxHp}document.getElementById('objective').textContent='Cari tahu mengapa mereka memburumu.';endBattle('Bayangan itu lenyap. Sebuah Memory Fragment tertinggal.');return}
+setTimeout(()=>{let d=4+Math.floor(Math.random()*5);player.hp-=d;log(enemy.name+' menyerang: -'+d+' HP.');if(player.hp<=0){player.hp=player.maxHp;endBattle('Arkan terbangun kembali di dekat shrine.')}updateHud()},420);renderBattle()}
 function log(t){document.getElementById('battleLog').textContent=t;renderBattle()}
 function endBattle(t){state='world';enemy=null;document.getElementById('battle').classList.add('hidden');flash(t);updateHud()}
-function flash(t){const m=document.getElementById('message');m.textContent=t;m.classList.remove('hidden');setTimeout(()=>m.classList.add('hidden'),2600)}
-function updateHud(){document.getElementById('hp').textContent=player.hp;document.getElementById('exp').textContent=player.exp;document.getElementById('fragments').textContent=player.fragments;document.getElementById('clockState').textContent=player.clock?'00:00 ✦':'00:00'}
-addEventListener('keydown',e=>{keys[e.key.toLowerCase()]=true;if(['arrowup','arrowdown','arrowleft','arrowright',' '].includes(e.key.toLowerCase()))e.preventDefault();if(e.key.toLowerCase()==='e'||e.key==='Enter')interact();if(e.key.toLowerCase()==='j'&&state==='world'&&player.clock){player.clock=false;flash('Jam saku ditutup. Suara detaknya masih terdengar...');updateHud()}if(e.key==='Escape'&&state==='dialog')document.getElementById('next').click()});
+function flash(t){const m=document.getElementById('toast');m.textContent=t;m.classList.remove('hidden');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>m.classList.add('hidden'),2600)}
+function updateHud(){document.getElementById('hp').textContent=player.hp;document.getElementById('maxhp').textContent=player.maxHp;document.getElementById('level').textContent=player.level;document.getElementById('exp').textContent=player.exp;document.getElementById('fragments').textContent=player.fragments;document.getElementById('clockState').textContent=player.clock?'00:00 ✦':'00:00';document.getElementById('hpbar').style.width=(player.hp/player.maxHp*100)+'%';document.getElementById('expbar').style.width=(player.exp/20*100)+'%'}
+addEventListener('keydown',e=>{const k=e.key.toLowerCase();keys[k]=true;if(['arrowup','arrowdown','arrowleft','arrowright',' '].includes(k))e.preventDefault();if(k==='e'||e.key==='Enter')interact();if(k==='j'&&state==='world'&&player.clock){player.clock=false;flash('Jam saku ditutup. Suara detaknya masih terdengar...');updateHud()}if(e.key==='Escape'&&state==='dialog')document.getElementById('next').click()});
 addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
-function update(){if(state==='world'){let s=3.2;if(keys.w||keys.arrowup)player.y-=s;if(keys.s||keys.arrowdown)player.y+=s;if(keys.a||keys.arrowleft)player.x-=s;if(keys.d||keys.arrowright)player.x+=s;player.x=Math.max(30,Math.min(W-30,player.x));player.y=Math.max(35,Math.min(H-30,player.y))}draw();requestAnimationFrame(update)}
+function update(){if(state==='world'){let s=3.1;if(keys.w||keys.arrowup)player.y-=s;if(keys.s||keys.arrowdown)player.y+=s;if(keys.a||keys.arrowleft)player.x-=s;if(keys.d||keys.arrowright)player.x+=s;player.x=Math.max(25,Math.min(W-25,player.x));player.y=Math.max(35,Math.min(H-25,player.y));}draw();requestAnimationFrame(update)}
 updateHud();update();
 </script>
 </body>
