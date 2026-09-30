@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+<defs>
+ <linearGradient id="bg" x2="0" y2="1"><stop stop-color="#080813"/><stop offset=".55" stop-color="#211b35"/><stop offset="1" stop-color="#07080f"/></linearGradient>
+ <radialGradient id="violet"><stop stop-color="#c5a7ff" stop-opacity=".8"/><stop offset=".45" stop-color="#8c58c8" stop-opacity=".28"/><stop offset="1" stop-color="#4d2c79" stop-opacity="0"/></radialGradient>
+ <linearGradient id="stone"><stop stop-color="#464354"/><stop offset=".5" stop-color="#252534"/><stop offset="1" stop-color="#11121c"/></linearGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="9"/></filter>
+</defs>
+<rect width="960" height="540" fill="url(#bg)"/>
+<circle cx="480" cy="260" r="190" fill="url(#violet)" filter="url(#glow)"/>
+<path d="M0 425L80 350 150 390 230 315 320 380 400 300 480 370 560 300 650 380 740 320 820 390 900 345 960 410V540H0Z" fill="#0b0c14"/>
+<g fill="url(#stone)" stroke="#625d70" stroke-width="2">
+ <path d="M55 420V180l42-70 42 70v240Z"/><path d="M160 420V145l42-70 42 70v275Z"/>
+ <path d="M720 420V145l42-70 42 70v275Z"/><path d="M825 420V180l42-70 42 70v240Z"/>
+ <path d="M330 455V185l50-85 50 85v270Z"/><path d="M530 455V185l50-85 50 85v270Z"/>
+</g>
+<g stroke="#6e657e" stroke-width="3" fill="none" opacity=".65">
+ <path d="M70 210h54M175 175h54M735 175h54M840 210h54"/>
+ <path d="M355 220h50M555 220h50"/>
+</g>
+<rect x="380" y="355" width="200" height="115" rx="4" fill="#0b0c14" stroke="#8e78aa" stroke-width="3"/>
+<path d="M380 355Q480 245 580 355" fill="#11121c" stroke="#8e78aa" stroke-width="3"/>
+<circle cx="480" cy="260" r="88" fill="#10111b" stroke="#d4bb82" stroke-width="5"/>
+<circle cx="480" cy="260" r="75" fill="none" stroke="#74644a" stroke-width="2"/>
+<g fill="#e5d49e" font-family="Georgia" font-size="20" text-anchor="middle">
+<text x="480" y="198">XII</text><text x="545" y="265">III</text><text x="480" y="333">VI</text><text x="415" y="265">IX</text></g>
+<g stroke="#d9c78f" stroke-width="5" stroke-linecap="round"><path d="M480 260V205"/><path d="M480 260L480 170"/></g>
+<g fill="#c6a9ef"><circle cx="480" cy="260" r="7"/><circle cx="480" cy="140" r="6"/><circle cx="565" cy="260" r="6"/><circle cx="480" cy="380" r="6"/><circle cx="395" cy="260" r="6"/><circle cx="540" cy="320" r="6"/><circle cx="420" cy="320" r="6"/></g>
+<path d="M110 470H850" stroke="#756887" stroke-width="2" opacity=".5"/>
+<text x="48" y="505" fill="#d1c39d" font-family="Georgia" font-size="16" letter-spacing="3">RUINS OF THE NORTH HILL</text>
+<text x="720" y="505" fill="#bda8d8" font-family="Georgia" font-size="16" letter-spacing="2">AURELION</text>
+</svg>
