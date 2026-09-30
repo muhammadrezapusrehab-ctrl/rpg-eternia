@@ -29,7 +29,7 @@
 <script>
 const c=document.getElementById('world'),ctx=c.getContext('2d'),W=960,H=540,keys={};
 let state='title',sceneIndex=0,scenes=[],map='dream',enemy=null,chapter=1,canExplore=false;
-const p={x:480,y:420,hp:40,maxHp:40,level:1,exp:0,frag:0,clock:false,pendant:false};
+const p={x:480,y:420,hp:40,maxHp:40,level:1,exp:0,frag:0,clock:false,pendant:false,ruinSolved:false,ruinBattle:false};
 const npc={bram:{x:690,y:245,name:'Tuan Bram'},aldric:{x:270,y:210,name:'Aldric'}};
 function rect(x,y,w,h,col){ctx.fillStyle=col;ctx.fillRect(x,y,w,h)}
 function text(x,y,t,size,col){ctx.fillStyle=col;ctx.font=size+'px Georgia';ctx.fillText(t,x,y)}
@@ -87,7 +87,40 @@ map='village';p.x=270;p.y=300;setScenes([
 ['Narasi','Arkan terbangun sebelum fajar. Untuk pertama kalinya dalam hidupnya, ia mengambil keputusan. Ia akan pergi ke Bukit Utara. Ia akan mencari jawaban.','CHAPTER 3 · ANAK YATIM PEMBAWA SIAL']
 ]);p.pendant=true}
 document.getElementById('start').onclick=()=>{document.getElementById('title').classList.add('hidden');chapter1Dream()};
-function interact(){if(state!=='world')return;if(map==='village'){if(Math.hypot(p.x-npc.bram.x,p.y-npc.bram.y)<60&&chapter===1){chapter2();return}if(Math.hypot(p.x-npc.aldric.x,p.y-npc.aldric.y)<60&&chapter===2){chapter3();return}if(Math.hypot(p.x-480,p.y-335)<75&&chapter===1){p.clock=true;p.frag=1;chapter=2;updateHud();flash('Jam saku kuno mulai berdetak.');chapter2();return}}}
+function chapter4(){
+map='ruins';chapter=4;p.x=85;p.y=285;
+setScenes([
+['Narasi','Bukit Utara berdiri sunyi di balik hutan. Jalan batu tua yang tertutup lumut membawa Arkan menuju sebuah gerbang reruntuhan yang sebagian besar telah runtuh.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
+['Arkan','Jadi... inilah tempat yang dimaksud Aldric.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
+['Narasi','Di balik gerbang, udara terasa jauh lebih dingin. Dinding-dinding batu dipenuhi ukiran yang hampir terkikis oleh waktu.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
+['Narasi','Liontin Arkan tiba-tiba menjadi hangat. Tujuh garis pada permukaannya memancarkan cahaya ungu samar.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
+['Narasi','Di ujung lorong terdapat sebuah pintu batu tanpa gagang. Tiga simbol terukir di atasnya. Lingkaran. Mata. Dan sebuah jam.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
+['Arkan','Aku pernah melihat simbol ini... dalam mimpiku.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
+['Narasi','Ketika Arkan mendekat, sebuah bisikan terdengar dari balik pintu. Bukan suara manusia. Bukan pula suara roh yang pernah ia dengar.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
+['Suara Misterius','Yang mengingat... akan membuka jalan.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA']
+]);
+}
+function interact(){
+if(state!=='world')return;
+if(map==='village'){
+if(Math.hypot(p.x-npc.bram.x,p.y-npc.bram.y)<60&&chapter===1){chapter2();return}
+if(Math.hypot(p.x-npc.aldric.x,p.y-npc.aldric.y)<60&&chapter===2){chapter3();return}
+if(Math.hypot(p.x-480,p.y-335)<75&&chapter===1){p.clock=true;p.frag=1;chapter=2;updateHud();flash('Jam saku kuno mulai berdetak.');chapter2();return}
+}
+if(map==='ruins'){
+if(Math.hypot(p.x-805,p.y-285)<75&&!p.ruinSolved){
+p.ruinSolved=true;p.frag++;updateHud();
+setScenes([
+['Narasi','Arkan menyentuhkan liontin pada ukiran pintu. Tujuh garis bercahaya, lalu tiga simbol menyala satu demi satu.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
+['Suara Misterius','Kau membawa tanda yang seharusnya telah hilang dari dunia.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
+['Narasi','Pintu batu bergeser. Di baliknya terdapat sebuah ruang bundar dan sebuah artefak berbentuk jam saku raksasa yang tertanam di dinding.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
+['Arkan','Jam... lagi?','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
+['Narasi','Ketika tangan Arkan menyentuh artefak itu, seluruh ruangan dipenuhi bayangan masa lalu. Untuk sesaat, ia melihat tujuh sosok berdiri di hadapan sebuah cahaya hitam.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
+['Narasi','Salah satu sosok menoleh kepadanya. Wajahnya tidak terlihat. Namun Arkan mendengar satu kata.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA'],
+['Suara Misterius','Aurelion.','CHAPTER 4 · RERUNTUHAN BUKIT UTARA']
+]);return}
+if(Math.hypot(p.x-480,p.y-275)<80&&!p.ruinBattle){p.ruinBattle=true;startBattle();return}
+}}
 function startBattle(){enemy={name:'Forgotten Wraith',hp:28,maxHp:28};state='battle';document.getElementById('battle').classList.remove('hidden');document.getElementById('battleLog').textContent='Sesuatu dari masa lalu menemukan Arkan.';renderBattle()}
 function renderBattle(){document.getElementById('enemyName').textContent=enemy.name;document.getElementById('stats').textContent='Musuh HP '+enemy.hp+'/'+enemy.maxHp+' · Arkan HP '+p.hp+'/'+p.maxHp}
 function endBattle(msg){enemy=null;state='world';document.getElementById('battle').classList.add('hidden');flash(msg);updateHud()}
@@ -97,7 +130,34 @@ function flash(s){const e=document.getElementById('toast');e.textContent=s;e.cla
 function updateHud(){document.getElementById('hp').textContent=p.hp;document.getElementById('maxhp').textContent=p.maxHp;document.getElementById('level').textContent=p.level;document.getElementById('exp').textContent=p.exp;document.getElementById('frag').textContent=p.frag;document.getElementById('clock').textContent=p.clock?'00:00 ✦':'00:00';document.getElementById('hpbar').style.width=(p.hp/p.maxHp*100)+'%';document.getElementById('expbar').style.width=Math.min(100,p.exp/20*100)+'%';document.getElementById('objective').textContent=chapter===1?'Pergilah menuju Old Shrine.':chapter===2?'Temui Aldric di rumahnya.':'Pergilah ke Bukit Utara.'}
 addEventListener('keydown',e=>{const k=e.key.toLowerCase();keys[k]=true;if(k==='e'||e.key==='Enter'){if(state==='story')document.getElementById('next').click();else interact()}if(k===' '&&state==='story')document.getElementById('next').click();if(k==='j'&&state==='world'&&p.clock){p.clock=false;flash('Jam saku ditutup.');updateHud()}});
 addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
-function update(){if(state==='world'){let s=3.1;if(keys.w||keys.arrowup)p.y-=s;if(keys.s||keys.arrowdown)p.y+=s;if(keys.a||keys.arrowleft)p.x-=s;if(keys.d||keys.arrowright)p.x+=s;p.x=Math.max(25,Math.min(W-25,p.x));p.y=Math.max(35,Math.min(H-25,p.y));if(chapter===3&&p.x<55){flash('Jalan menuju Bukit Utara terbuka pada chapter berikutnya.');p.x=80}if(p.clock&&Math.random()<.0007&&chapter===2)startBattle()}draw();requestAnimationFrame(update)}
+function update(){
+if(state==='world'){
+let s=3.1;if(keys.w||keys.arrowup)p.y-=s;if(keys.s||keys.arrowdown)p.y+=s;if(keys.a||keys.arrowleft)p.x-=s;if(keys.d||keys.arrowright)p.x+=s;
+p.x=Math.max(25,Math.min(W-25,p.x));p.y=Math.max(35,Math.min(H-25,p.y));
+if(chapter===3&&p.x<55){chapter4();return}
+if(map==='ruins'&&p.y<45){flash('Lorong ini masih tertutup reruntuhan. Cari jalan lain.');p.y=65}
+if(p.clock&&Math.random()<.0007&&chapter===2)startBattle();
+if(map==='ruins'&&Math.random()<.00045&&!p.ruinBattle)startBattle();
+}
+draw();requestAnimationFrame(update)}
+const baseDraw=draw;
+draw=function(){
+if(map!=='ruins'){baseDraw();return}
+rect(0,0,W,H,'#10141a');rect(35,35,890,470,'#242932');rect(65,65,830,410,'#343a40');
+rect(65,250,830,70,'#252b32');rect(410,65,140,185,'#1d2229');rect(410,320,140,155,'#1d2229');
+for(let x=95;x<880;x+=70){rect(x,82,18,155,'#454b50');rect(x,330,18,130,'#454b50')}
+rect(65,248,345,74,'#171b21');rect(550,248,345,74,'#171b21');
+ctx.strokeStyle='#59616a';ctx.lineWidth=3;ctx.strokeRect(130,110,180,95);ctx.strokeRect(650,110,180,95);
+text(150,155,'ᛉ  ᚦ  ◯  ᚲ',22,'#777f88');
+text(680,155,'AURELION',20,'#777f88');
+ctx.fillStyle='#4c3f68';ctx.beginPath();ctx.arc(480,255,52,0,7);ctx.fill();
+ctx.strokeStyle='#a990d0';ctx.lineWidth=3;ctx.beginPath();ctx.arc(480,255,42,0,7);ctx.stroke();
+for(let i=0;i<7;i++){let a=i*Math.PI*2/7;ctx.fillStyle='#c4a9df';ctx.beginPath();ctx.arc(480+Math.cos(a)*42,255+Math.sin(a)*42,5,0,7);ctx.fill()}
+rect(770,250,70,70,'#171b21');ctx.strokeStyle='#9e8b57';ctx.strokeRect(770,250,70,70);text(782,292,'◯',30,'#c8b06d');
+person(p.x,p.y,'#d4a27c','#5b3b31',true);
+if(p.ruinSolved){ctx.fillStyle='#b999dc';ctx.font='bold 14px Georgia';ctx.fillText('✦',798,235)}
+text(80,500,'RERUNTUHAN BUKIT UTARA',14,'#c9bd96');
+}
 updateHud();update();
 </script>
 </body>
