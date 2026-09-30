@@ -58,7 +58,7 @@ arcs:{title:'Plot Besar',html:`<div class="loreSection"><h3>Enam Arc</h3><ol>
 <li><b>Arc 6 — Keruntuhan Takdir</b>: Arkan harus memilih antara menjaga dunia yang penuh kebohongan atau menghancurkannya demi kebenaran.</li></ol>
 <h3>Pertanyaan Utama</h3><p>Siapa Tujuh Raja Abadi? Mengapa sejarah mereka dihapus? Apa yang terjadi pada Malam Tanpa Fajar? Mengapa Arkan dapat melihat masa lalu? Siapa Mira? Mengapa jam saku berhenti di 00:00? Apakah dunia saat ini dibangun di atas kebohongan?</p></div>`}
 };
-const c=document.getElementById('world'),ctx=c.getContext('2d'),W=960,H=540,keys={};window.elariaMap=new Image();window.elariaMap.src='assets/maps/elaria.svg';
+const c=document.getElementById('world'),ctx=c.getContext('2d'),W=960,H=540,keys={};window.elariaMap=new Image();window.elariaMap.src='assets/maps/elaria.svg';window.ruinsMap=new Image();window.ruinsMap.src='assets/maps/ruins.svg';
 let state='title',sceneIndex=0,scenes=[],map='dream',enemy=null,chapter=1,canExplore=false;
 const p={x:480,y:420,hp:40,maxHp:40,level:1,exp:0,frag:0,clock:false,pendant:false,ruinSolved:false,ruinBattle:false,puzzleSeq:[],puzzleOpen:false,wraithDefeated:false};
 const sceneArt=document.getElementById('sceneArt');
@@ -123,14 +123,12 @@ silhouette(p.x,p.y,.62,'ark');
 ctx.fillStyle='#e8d49a';ctx.font='bold 14px Georgia';ctx.fillText('ELARIA',18,28);
 }
 function drawRuins(){
-rect(0,0,W,H,'#080a10');let g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,'#151421');g.addColorStop(.5,'#2b2340');g.addColorStop(1,'#090a11');rect(0,0,W,H,g);
-for(let i=0;i<18;i++){let x=i*58-10;let h=110+(i%6)*22;ctx.fillStyle='#171724';ctx.fillRect(x,430-h,45,h);ctx.beginPath();ctx.moveTo(x-8,430-h);ctx.lineTo(x+22,430-h-35);ctx.lineTo(x+53,430-h);ctx.fill()}
-rect(65,250,830,70,'#11131c');rect(405,70,150,180,'#0f1119');rect(405,320,150,155,'#0f1119');
-for(let x=90;x<880;x+=70){rect(x,80,18,155,'#383542');rect(x,335,18,120,'#383542')}
-glowCircle(480,255,145,'rgb(123,81,184)',.65);clockFace(480,255,58,0);
-ctx.strokeStyle='#aa8bd1';ctx.lineWidth=2;ctx.beginPath();ctx.arc(480,255,85,0,Math.PI*2);ctx.stroke();
-for(let i=0;i<7;i++){let a=i*Math.PI*2/7;ctx.fillStyle='#d0b2e9';ctx.beginPath();ctx.arc(480+Math.cos(a)*85,255+Math.sin(a)*85,5,0,Math.PI*2);ctx.fill()}
-text(685,160,'AURELION',20,'#bda9d0');text(80,505,'RERUNTUHAN BUKIT UTARA',14,'#c9bd96');silhouette(p.x,p.y,.9,'ark');
+if(window.ruinsMap&&window.ruinsMap.complete)ctx.drawImage(window.ruinsMap,0,0,W,H);else{rect(0,0,W,H,'#080a10')}
+const t=performance.now()/1000;
+for(let i=0;i<24;i++){let x=(i*83+(t*7))%W,y=(i*47+(t*13))%H;ctx.fillStyle='rgba(202,172,255,'+(0.15+((i%4)*.08))+')';ctx.beginPath();ctx.arc(x,y,1.4+(i%3),0,Math.PI*2);ctx.fill()}
+if(p.ruinSolved){glowCircle(480,260,115,'rgb(145,88,205)',.22);text(425,425,'SEAL OPEN',14,'#d6c38e')}
+if(!p.ruinSolved){ctx.fillStyle='rgba(5,6,12,.48)';ctx.fillRect(0,0,W,H);text(390,95,'THE FORGOTTEN SANCTUM',18,'#d9c58e');text(397,120,'A MEMORY SEALED FOR 500 YEARS',11,'#a89bbd')}
+silhouette(p.x,p.y,.9,'ark');
 }
 function draw(){
 if(map==='dream')drawDream();else if(map==='village')drawVillage();else drawRuins();
