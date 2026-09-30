@@ -6,7 +6,7 @@
 <style>
 :root{--gold:#e7cf8a;--panel:#090d15ee;--line:#766b4c;--muted:#9da5b5}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#1a1e2c,#05070b 75%);color:#eee;font-family:Georgia,serif;display:flex;justify-content:center;min-height:100vh}.game{width:min(1000px,98vw);padding:14px 0 20px}header{display:flex;justify-content:space-between;align-items:end;padding:4px 5px 10px}h1{margin:0;color:var(--gold);font-size:25px;text-shadow:0 2px 12px #000}header span{color:#8d95a7;font:11px Arial}.screen{position:relative;border:2px solid #363b4c;box-shadow:0 15px 45px #000;overflow:hidden}canvas{display:block;width:100%;height:auto;image-rendering:pixelated}.hud{display:flex;gap:10px;justify-content:space-between;background:#0d111b;border:1px solid #292f40;padding:10px 12px;margin-top:8px;font:12px Arial}.hudbox{min-width:145px;line-height:1.5}.gold{color:var(--gold);font-weight:bold}.objective{color:#c9ced8}.bar{height:6px;background:#292e38;margin-top:3px;border-radius:4px;overflow:hidden}.hpbar{height:100%;background:#b84c4c}.expbar{height:100%;background:#c4a452}.overlay{position:absolute;left:4%;right:4%;bottom:4%;background:var(--panel);border:1px solid #a9935d;padding:14px 16px;z-index:10;box-shadow:0 8px 30px #000}.speaker{color:var(--gold);font-weight:bold;font-size:16px}.text{line-height:1.65;min-height:64px;margin:8px 0 12px;white-space:pre-line}.btn{background:#171e2c;color:#f5e9c5;border:1px solid #656c7d;padding:8px 18px;border-radius:3px;cursor:pointer}.btn:hover{background:#2b374d}.hidden{display:none!important}.title{position:absolute;inset:0;background:linear-gradient(#060914e8,#080b12ef);z-index:20;display:flex;align-items:center;justify-content:center;text-align:center}.title h2{font-size:39px;color:var(--gold);margin:0 0 8px}.title p{color:#b2b8c6;max-width:620px;line-height:1.6}.start{font-size:16px;margin-top:15px}.toast{position:absolute;top:12px;left:50%;transform:translateX(-50%);background:#080b12ed;border:1px solid #8e7b4e;padding:9px 15px;color:#ead9aa;z-index:15}.battleTitle{text-align:center;color:var(--gold);font-size:20px}.enemy{text-align:center;font-size:60px;padding:7px}.stats{text-align:center;font:13px Arial}.actions{display:flex;justify-content:center;gap:8px;margin:12px}.help{text-align:center;color:#707888;font:11px Arial;margin:8px}.chapterBadge{color:#c7cbd6}@media(max-width:650px){header{display:block}header span{display:block;margin-top:5px}.hud{flex-wrap:wrap}.hudbox{min-width:125px}.title h2{font-size:27px}}
-</style>
+.loreBtn{position:absolute;top:12px;right:12px;z-index:12;padding:6px 12px}.lore{position:absolute;inset:0;background:#05070bea;z-index:30;display:flex;align-items:center;justify-content:center;padding:25px}.lorePanel{width:min(820px,92%);max-height:90%;overflow:auto;background:#0c111b;border:1px solid #9b8652;box-shadow:0 20px 50px #000;padding:22px}.lorePanel h2{color:var(--gold);margin:0 0 12px}.close{float:right;background:none;border:0;color:#ddd;font-size:25px;cursor:pointer}.tabs{display:flex;gap:5px;border-bottom:1px solid #343b49;margin-bottom:15px;flex-wrap:wrap}.tab{background:#171d29;color:#bfc5d1;border:1px solid #343b49;padding:7px 12px;cursor:pointer}.tab.active{color:#f1dc9e;border-color:#9b8652}.loreSection h3{color:#d8c27e;margin:12px 0 5px}.loreSection p,.loreSection li{font:13px Arial;line-height:1.55;color:#c4cad5}.tier{display:inline-block;border:1px solid #5e6674;padding:3px 7px;margin:3px;color:#ddd}.secret{color:#a992d2!important}</style>
 </head>
 <body>
 <main class="game">
@@ -17,7 +17,12 @@
 <div id="story" class="overlay hidden"><div id="speaker" class="speaker"></div><div id="storyText" class="text"></div><button class="btn" id="next">Lanjut</button></div>
 <div id="battle" class="overlay hidden"><div id="enemyName" class="battleTitle"></div><div class="enemy">☠</div><div id="stats" class="stats"></div><div class="actions"><button class="btn" data-a="attack">Serang</button><button class="btn" data-a="clock">Jam Saku</button><button class="btn" data-a="run">Lari</button></div><div id="battleLog" class="stats"></div></div>
 <div id="toast" class="toast hidden"></div>
-</section>
+<button class="btn loreBtn" id="loreBtn">Codex</button>
+<div id="lore" class="lore hidden">
+<div class="lorePanel"><button class="close" id="closeLore">×</button>
+<h2>Codex — Eternia</h2><div class="tabs">
+<button class="tab active" data-tab="world">Dunia</button><button class="tab" data-tab="echo">Echo</button><button class="tab" data-tab="chars">Tokoh</button><button class="tab" data-tab="arcs">Arc</button></div>
+<div id="loreContent"></div></div></div></section>
 <section class="hud">
 <div class="hudbox"><span class="gold">Arkan Veyron</span><br>HP <b id="hp">40</b>/<span id="maxhp">40</span> · Lv <b id="level">1</b><div class="bar"><div id="hpbar" class="hpbar" style="width:100%"></div></div></div>
 <div class="hudbox">EXP <b id="exp">0</b>/20<div class="bar"><div id="expbar" class="expbar" style="width:0%"></div></div></div>
@@ -27,6 +32,32 @@
 <p class="help">WASD / Arrow Keys: bergerak · E / Enter: interaksi · J: jam saku · Space/Enter: lanjut</p>
 </main>
 <script>
+const codex={
+world:{title:'Dunia Eternia',html:`<div class="loreSection"><h3>Lima Kerajaan Besar</h3><ul>
+<li><b>Kerajaan Valthera</b> — negara ksatria dan benteng terbesar.</li>
+<li><b>Republik Arcadia</b> — pusat sihir dan penelitian artefak kuno.</li>
+<li><b>Dominion Noctis</b> — wilayah bayangan yang selalu diselimuti malam.</li>
+<li><b>Kekaisaran Drakenheim</b> — tempat keturunan naga hidup.</li>
+<li><b>Kepulauan Elyndor</b> — rumah para petualang dan pemburu harta karun.</li></ul>
+<h3>Misteri Dunia</h3><p>Tujuh Raja Abadi, Malam Tanpa Fajar, kota yang hilang, dan sejarah yang mungkin telah dihapus.</p></div>`},
+echo:{title:'Sistem Kekuatan — Echo',html:`<div class="loreSection"><p>Setiap makhluk memiliki <b>Echo</b>, jejak jiwa yang terhubung dengan masa lalu.</p>
+<div><span class="tier">Ember</span><span class="tier">Flame</span><span class="tier">Blaze</span><span class="tier">Nova</span><span class="tier">Eclipse</span><span class="tier">Celestial</span><span class="tier">Eternal</span></div>
+<h3>Zero Echo</h3><p class="secret">Echo Arkan tidak tercatat dalam sejarah. Zero Echo seharusnya tidak ada. Kemampuannya berkaitan dengan melihat masa lalu, memanipulasi ingatan, membuka segel kuno, dan menyaksikan kejadian yang telah dihapus dari sejarah.</p></div>`},
+chars:{title:'Tokoh Utama',html:`<div class="loreSection">
+<h3>Arkan Veyron</h3><p>18 tahun. Tenang, cerdas, tidak mudah percaya orang lain, dan sangat melindungi teman. Tujuan awalnya mencari asal-usul jam saku misterius. Tujuan sebenarnya: mengungkap siapa yang menghapus sejarah dunia.</p>
+<h3>Lyra Windheart</h3><p>Penyihir muda dari Arcadia. Ia sebenarnya anggota organisasi yang memburu Arkan, tetapi mulai meragukan misinya.</p>
+<h3>Kael Draken</h3><p>Pendekar pedang keturunan naga. Selama sepuluh tahun mencari pembunuh ayahnya. Petunjuknya berkaitan dengan misteri Arkan.</p>
+<h3>Mira</h3><p>Gadis misterius dalam penglihatan Arkan. Ia hidup 500 tahun lalu, tetapi sesekali muncul secara fisik. Tidak ada yang tahu bagaimana hal itu mungkin terjadi.</p>
+<h3>The Veil</h3><p>Organisasi rahasia yang mengendalikan kerajaan-kerajaan dari balik layar. Mereka menjaga rahasia Malam Tanpa Fajar.</p></div>`},
+arcs:{title:'Plot Besar',html:`<div class="loreSection"><h3>Enam Arc</h3><ol>
+<li><b>Arc 1 — Jam yang Berdetak Kembali</b>: Arkan menemukan artefak kuno dan menjadi buronan.</li>
+<li><b>Arc 2 — Kota yang Hilang</b>: kelompok Arkan menemukan kota yang tidak tercatat di peta.</li>
+<li><b>Arc 3 — Perang Bayangan</b>: konspirasi The Veil mulai terungkap.</li>
+<li><b>Arc 4 — Makam Raja Ketujuh</b>: misteri Raja Abadi pertama kali terpecahkan.</li>
+<li><b>Arc 5 — Kebenaran Malam Tanpa Fajar</b>: sejarah asli dunia terungkap.</li>
+<li><b>Arc 6 — Keruntuhan Takdir</b>: Arkan harus memilih antara menjaga dunia yang penuh kebohongan atau menghancurkannya demi kebenaran.</li></ol>
+<h3>Pertanyaan Utama</h3><p>Siapa Tujuh Raja Abadi? Mengapa sejarah mereka dihapus? Apa yang terjadi pada Malam Tanpa Fajar? Mengapa Arkan dapat melihat masa lalu? Siapa Mira? Mengapa jam saku berhenti di 00:00? Apakah dunia saat ini dibangun di atas kebohongan?</p></div>`}
+};
 const c=document.getElementById('world'),ctx=c.getContext('2d'),W=960,H=540,keys={};
 let state='title',sceneIndex=0,scenes=[],map='dream',enemy=null,chapter=1,canExplore=false;
 const p={x:480,y:420,hp:40,maxHp:40,level:1,exp:0,frag:0,clock:false,pendant:false,ruinSolved:false,ruinBattle:false};
@@ -86,6 +117,11 @@ map='village';p.x=270;p.y=300;setScenes([
 ['Gadis Misterius','Temukan aku...','CHAPTER 3 · ANAK YATIM PEMBAWA SIAL'],
 ['Narasi','Arkan terbangun sebelum fajar. Untuk pertama kalinya dalam hidupnya, ia mengambil keputusan. Ia akan pergi ke Bukit Utara. Ia akan mencari jawaban.','CHAPTER 3 · ANAK YATIM PEMBAWA SIAL']
 ]);p.pendant=true}
+const lore=document.getElementById('lore'),loreContent=document.getElementById('loreContent');
+function openLore(tab='world'){lore.classList.remove('hidden');document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));loreContent.innerHTML='<h3>'+codex[tab].title+'</h3>'+codex[tab].html}
+document.getElementById('loreBtn').onclick=()=>openLore();
+document.getElementById('closeLore').onclick=()=>lore.classList.add('hidden');
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>openLore(b.dataset.tab));
 document.getElementById('start').onclick=()=>{document.getElementById('title').classList.add('hidden');chapter1Dream()};
 function chapter4(){
 map='ruins';chapter=4;p.x=85;p.y=285;
