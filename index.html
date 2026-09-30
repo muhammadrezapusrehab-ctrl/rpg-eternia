@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Last Keeper of Eternia</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main id="game">
+  <header><h1>The Last Keeper of Eternia</h1><span id="chapter">Chapter 1 · The Clock That Should Not Tick</span></header>
+  <section class="screen">
+    <canvas id="world" width="960" height="540"></canvas>
+    <div id="dialogue" class="hidden"><div id="speaker"></div><p id="dialogText"></p><button id="next">Lanjut</button></div>
+    <div id="battle" class="hidden">
+      <div class="battle-title" id="enemyName"></div>
+      <div class="enemy" id="enemyArt">☠</div>
+      <div class="battle-stats" id="battleStats"></div>
+      <div class="actions"><button data-action="attack">Serang</button><button data-action="clock">Jam Saku</button><button data-action="run">Lari</button></div>
+      <p id="battleLog"></p>
+    </div>
+    <div id="message" class="hidden"></div>
+  </section>
+  <section class="hud">
+    <div><b>Arkan Veyron</b><br>HP <span id="hp">40</span>/40 · Lv. 1 · EXP <span id="exp">0</span>/20</div>
+    <div>⌚ Jam Saku: <span id="clockState">00:00</span><br>◈ Memory Fragments: <span id="fragments">0</span></div>
+  </section>
+  <p class="help">WASD / Arrow Keys: bergerak · E / Enter: interaksi · J: jam saku · Esc: tutup</p>
+</main>
+<script src="game.js"></script>
+</body>
+</html>
