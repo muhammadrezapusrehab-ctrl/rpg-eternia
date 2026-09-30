@@ -42,7 +42,7 @@ else{rect(0,0,W,H,'#1a291d');rect(0,0,W,155,'#243a27');rect(0,420,W,120,'#203322
 }
 function setScenes(a){scenes=a;sceneIndex=0;state='story';showScene()}
 function showScene(){if(sceneIndex>=scenes.length){finishScene();return}const s=scenes[sceneIndex];document.getElementById('speaker').textContent=s[0];document.getElementById('storyText').textContent=s[1];document.getElementById('story').classList.remove('hidden');document.getElementById('chapter').textContent=s[2]||document.getElementById('chapter').textContent}
-function finishScene(){document.getElementById('story').classList.add('hidden');state='world';canExplore=true}
+function finishScene(){document.getElementById('story').classList.add('hidden');if(map==='dream'){map='village';chapter=1;p.x=480;p.y=390;canExplore=true;updateHud();flash('Desa Elaria — Tujuan: pergilah ke Old Shrine.')}state='world';canExplore=true}
 document.getElementById('next').onclick=()=>{sceneIndex++;showScene()};
 function chapter1Dream(){
 map='dream';setScenes([
